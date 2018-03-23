@@ -3,14 +3,17 @@ import React from 'react';
 import { AppRegistry, View } from 'react-native';
 import Header from './src/components/Header';
 import AlbumList from './src/components/AlbumList';
+// import { YellowBox } from 'react-native';
 
 // Create a component
 const App = () => (
-  <View>
+  <View style={{ flex: 1 }}>
     <Header headerText={'Albums'} />
     <AlbumList />
   </View>
 );
+
+console.disableYellowBox = true;
 
 // Render it to the device
 AppRegistry.registerComponent('albums', () => App);
