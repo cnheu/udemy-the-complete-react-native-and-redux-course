@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
-import Card from './Card'
-import CardSection from './CardSection'
+import { View, Text, Image, Linking } from 'react-native';
+import Card from './Card';
+import CardSection from './CardSection';
+import Button from './Button';
 
 const AlbumDetail = ({ album }) => {
   // destructured the prop argument cos it was used mulitple times
@@ -11,6 +12,7 @@ const AlbumDetail = ({ album }) => {
     artist,
     thumbnail_image,
     image,
+    url,
   } = album;
 
   const {
@@ -40,6 +42,11 @@ const AlbumDetail = ({ album }) => {
           style={imageStyle}
           source={{ uri: image }}
         />
+      </CardSection>
+      <CardSection>
+        <Button onPress={() => Linking.openURL(url)}>
+          Buy Now
+        </Button>
       </CardSection>
     </Card>
   );
