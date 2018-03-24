@@ -13,6 +13,7 @@ const App = () => (
   </View>
 );
 
+// Disable Yellow Warnings
 console.disableYellowBox = true;
 
 // Render it to the device

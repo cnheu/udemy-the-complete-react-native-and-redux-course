@@ -4,6 +4,7 @@ import Card from './Card';
 import CardSection from './CardSection';
 import Button from './Button';
 
+// AlbumDetail is a functional component, it is used for presentation and JSX primarily
 const AlbumDetail = ({ album }) => {
   // destructured the prop argument cos it was used mulitple times
 

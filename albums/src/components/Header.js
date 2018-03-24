@@ -2,7 +2,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-// Make a components
+// Header functional component at top of device
 const Header = (props) => {
   const { textStyle, viewStyle } = styles;
 
