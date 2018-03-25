@@ -1,44 +1,107 @@
 // LoginForm - houses everything to do with email, password and signing inspect
 
 import React, { Component } from 'react';
-import { TextInput } from 'react-native';
-import { Button, Card, CardSection } from './common';
+import { Text } from 'react-native';
+import firebase from 'firebase';
+import { Button, Card, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
   // Initialise State to LoginForm
-  state = { text: '' };
+  state = {
+    email: '',
+    password: '',
+    error: '',
+    loading: false,
+  };
 
+
+  // callback to authenticate user using firebase
+  onButtonPress() {
+    const { email, password } = this.state;
+
+    // set error and loading state
+    this.setState({ error: '', loading: true });
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
+      .catch(() => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then(this.onLoginSuccess.bind(this))
+          .catch(this.onLoginFail.bind(this));
+      });
+  }
+
+  onLoginSuccess() {
+    this.setState({
+      email: '',
+      password: '',
+      error: '',
+      loading: false
+    });
+  }
+
+  onLoginFail() {
+    this.setState({ error: 'Authentication Failed.', loading: false });
+  }
+
+  renderButton() {
+    if (this.state.loading) {
+          return <Spinner size="small" />;
+    }
+    return (
+      // Bind to this context to access this object once passed down to child
+      <Button onPress={this.onButtonPress.bind(this)}>
+        Log In
+      </Button>
+    );
+  }
 
   render() {
     return (
       <Card>
         <CardSection>
+          {
           // onChangeText callback
           // TextInput has no idea what its value is.
           // It only finds out after onChangeText is called
           // Text input is held in the state, we ALWAYS know the State
           // Useful for validation, and using that state which is available
-          <TextInput
-            value={this.state.text}
-            onChangeText={text => this.setState({ text })}
-            style={{ height: 20, width: 100 }}
+          }
+          <Input
+            label="Email"
+            placeholder="hello@myinbox.com"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
           />
         </CardSection>
         <CardSection>
-          <TextInput />
+          <Input
+            label="Password"
+            placeholder="Don't tell anyone!"
+            secureTextEntry
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+          />
         </CardSection>
+
+        <Text style={styles.errorTextStyle}>
+          {this.state.error}
+        </Text>
+
         <CardSection>
-          <Button>
-            Log In
-          </Button>
+          {this.renderButton()}
         </CardSection>
       </Card>
     );
   }
 }
 
-// const styles = {
-//
-// }
+const styles = {
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red',
+  }
+};
 
-export default LoginForm
+export default LoginForm;
