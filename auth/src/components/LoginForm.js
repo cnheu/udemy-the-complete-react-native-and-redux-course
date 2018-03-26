@@ -22,6 +22,7 @@ class LoginForm extends Component {
     // set error and loading state
     this.setState({ error: '', loading: true });
 
+    // attempt sign in, then sign up, catch errors, update state
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(this.onLoginSuccess.bind(this))
       .catch(() => {
