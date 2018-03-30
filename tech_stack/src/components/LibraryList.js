@@ -14,14 +14,14 @@ class LibraryList extends Component {
   }
 
   renderRow(library) {
-    console.log('in renderRow');
+    // console.log('in renderRow');
     return <ListItem library={library} />;
     // return <View />
   }
 
   render() {
-    console.log(this.props);
-    console.log('hello');
+    // console.log(this.props);
+    // console.log('hello');
     return (
       <ListView
         dataSource={this.dataSource}
