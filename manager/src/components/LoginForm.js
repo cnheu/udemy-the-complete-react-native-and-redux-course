@@ -44,7 +44,7 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <View style={{ paddingTop: 64 }}>
+      <View style={{ paddingTop: 64, backgroundColor: '#f7f7f7', flex: 1 }}>
         <Card>
           <CardSection>
             <Input

@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 class EmployeeList extends Component {
   render() {
     return (
-      <View>
+      <View style={{ paddingTop: 64, backgroundColor: '#f7f7f7', flex: 1 }}>
         <Text>EmployeeList</Text>
         <Text>EmployeeList</Text>
         <Text>EmployeeList</Text>
