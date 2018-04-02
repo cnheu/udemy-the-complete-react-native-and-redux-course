@@ -1,36 +1,72 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Text, View, Picker } from 'react-native';
+import { employeeUpdate } from '../actions';
 import { Card, CardSection, Input, Button } from './common';
 
 class EmployeeCreate extends Component {
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
-            label="Name"
-            placeholder="Jane"
-          />
-        </CardSection>
+      <View style={{ paddingTop: 64, backgroundColor: '#f7f7f7', flex: 1 }}>
+        <Card>
+          <CardSection>
+            <Input
+              label="Name"
+              placeholder="Jane"
+              value={this.props.name}
+              onChangeText={value => this.props.employeeUpdate({ prop: 'name', value })}
+            />
+          </CardSection>
 
-        <CardSection>
-          <Input
-            label="Phone"
-            placeholder="04XX-XXX-XXX"
-          />
-        </CardSection>
+          <CardSection>
+            <Input
+              label="Phone"
+              placeholder="04XX-XXX-XXX"
+              value={this.props.phone}
+              onChangeText={value => this.props.employeeUpdate({ prop: 'phone', value })}
+            />
+          </CardSection>
 
-        <CardSection>
-          // TODO: add shift dropdown? field
-        </CardSection>
+          // could also set up array and map each picker item
+          <CardSection style={{ flexDirection: 'column' }}>
+            <Text style={styles.pickerTextStyle}>Shift</Text>
+            <Picker
 
-        <CardSection>
-          <Button>
-            Confirm
-          </Button>
-        </CardSection>
-      </Card>
+              selectedValue={this.props.shift}
+              onValueChange={value => this.props.employeeUpdate({ prop: 'shift', value })}
+            >
+              <Picker.Item label="Monday" value="Monday" />
+              <Picker.Item label="Tuesday" value="Tuesday" />
+              <Picker.Item label="Wednesday" value="Wednesday" />
+              <Picker.Item label="Thursday" value="Thursday" />
+              <Picker.Item label="Friday" value="Friday" />
+              <Picker.Item label="Saturday" value="Saturday" />
+              <Picker.Item label="Sunday" value="Sunday" />
+            </Picker>
+          </CardSection>
+
+          <CardSection>
+            <Button>
+              Confirm
+            </Button>
+          </CardSection>
+        </Card>
+      </View>
     );
   }
 }
 
-export default EmployeeCreate;
+const mapStateToProps = (state) => {
+  const { name, phone, shift } = state.employeeForm;
+  return { name, phone, shift };
+};
+
+const styles = {
+  pickerTextStyle: {
+    fontSize: 18,
+    paddingLeft: 20,
+    paddingTop: 5,
+  }
+};
+
+export default connect(mapStateToProps, { employeeUpdate })(EmployeeCreate);
