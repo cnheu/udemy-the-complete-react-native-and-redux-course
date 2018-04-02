@@ -20,7 +20,7 @@ const styles = {
     position: 'relative',
 
   }
-}
+};
 
 // Make the component available to other parts of the app. Not usual default
 
