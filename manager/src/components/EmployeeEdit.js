@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import Communications from 'react-native-communications';
 import EmployeeForm from './EmployeeForm';
-import { employeeUpdate, employeeSave } from '../actions';
-import { Card, CardSection, Button } from './common';
+import { employeeUpdate, employeeSave, employeeDelete } from '../actions';
+import { Card, CardSection, Button, Confirm } from './common';
 
 class EmployeeEdit extends Component {
+  state = { showModal: false };
+
   componentWillMount() {
     _.each(this.props.employee, (value, prop) => {
       this.props.employeeUpdate({ prop, value });
@@ -24,6 +26,16 @@ class EmployeeEdit extends Component {
     const { phone, shift } = this.props;
 
     Communications.text(phone, `Your upcoming shift is on ${shift}`);
+  }
+
+  onAccept() {
+    const { uid } = this.props.employee;
+
+    this.props.employeeDelete({ uid });
+    this.setState({ showModal: false });
+  }
+  onDecline() {
+    this.setState({ showModal: false });
   }
 
   render() {
@@ -44,10 +56,18 @@ class EmployeeEdit extends Component {
           </CardSection>
 
           <CardSection>
-            <Button>
-              Fire
+            <Button onPress={() => this.setState({ showModal: !this.state.showModal })}>
+              Fire Employee
             </Button>
           </CardSection>
+
+          <Confirm
+            visible={this.state.showModal}
+            onAccept={this.onAccept.bind(this)}
+            onDecline={this.onDecline.bind(this)}
+          >
+            Are you sure you want to delete this?
+          </Confirm>
         </Card>
       </View>
     );
@@ -60,4 +80,8 @@ const mapStateToProps = (state) => {
   return { name, phone, shift };
 };
 
-export default connect(mapStateToProps, { employeeUpdate, employeeSave })(EmployeeEdit);
+export default connect(mapStateToProps, {
+  employeeUpdate,
+  employeeSave,
+  employeeDelete
+})(EmployeeEdit);
